@@ -33,9 +33,9 @@ export const CoinList = props => {
 
   return (
     <Flex flexDirection="column" width="100%" justifyContent="space-around">
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose}  >
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent >
           <ModalHeader textAlign="center">
             Selling: {currentCoin.id}
           </ModalHeader>

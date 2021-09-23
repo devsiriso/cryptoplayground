@@ -58,7 +58,7 @@ export const MarketList = props => {
   };
 
   useEffect(() => {
-    fetchCoins();
+    fetchCoins(); 
   }, []);
 
   const getColor = change => {
@@ -70,11 +70,14 @@ export const MarketList = props => {
   const [currentCoin, setCurrentCoin] = useState({});
   const [amount, setAmount] = useState(0);
   const handleBuy = coin => {
-    if(props.money> coin.price) {
-        setCurrentCoin(coin);
-        onOpen();
+    if (props.money > coin.price) {
+      setCurrentCoin(coin);
+      onOpen();
     } else {
-        props.spawnToast(`You do not have enough funds to acquire ${coin.id}`, "error")
+      props.spawnToast(
+        `You do not have enough funds to acquire ${coin.id}`,
+        'error'
+      );
     }
   };
 
@@ -87,15 +90,22 @@ export const MarketList = props => {
           <ModalBody textAlign="center">
             <VStack>
               <Text>How much {currentCoin.id} would you like to purchase?</Text>
-              <NumberInput defaultValue={0} min={0} max={props.money / currentCoin.price} onChange={(value) => setAmount(value)}
-      value={amount}>
+              <NumberInput
+                defaultValue={0}
+                min={0}
+                max={props.money / currentCoin.price}
+                onChange={value => setAmount(value)}
+                value={amount}
+              >
                 <NumberInputField />
                 <NumberInputStepper>
                   <NumberIncrementStepper />
                   <NumberDecrementStepper />
                 </NumberInputStepper>
               </NumberInput>
-              <Text>Total price: ${roundToTwo(amount * currentCoin.price)}</Text>
+              <Text>
+                Total price: ${roundToTwo(amount * currentCoin.price)}
+              </Text>
             </VStack>
           </ModalBody>
 
@@ -104,7 +114,10 @@ export const MarketList = props => {
               <Button
                 leftIcon={<NotAllowedIcon />}
                 colorScheme="red"
-                onClick={() => {onClose(); setAmount(0)}}
+                onClick={() => {
+                  onClose();
+                  setAmount(0);
+                }}
                 variant="outline"
               >
                 Cancel
@@ -113,7 +126,11 @@ export const MarketList = props => {
                 leftIcon={<CheckCircleIcon />}
                 colorScheme="purple"
                 variant="outline"
-                onClick={() => {props.purchaseCoin(currentCoin, amount); onClose(); setAmount(0)}}
+                onClick={() => {
+                  props.purchaseCoin(currentCoin, amount);
+                  onClose();
+                  setAmount(0);
+                }}
               >
                 Buy
               </Button>
@@ -145,13 +162,12 @@ export const MarketList = props => {
             )}
           </Th>
           <Th>Coin</Th>
-          {/* <Th>Day Δ</Th> */}
-          {/* <Th>Month Δ</Th> */}
+          {/* <Th>Day Δ</Th>
+          <Th>Month Δ</Th> */}
           <Th isNumeric>Price</Th>
         </Tr>
       </Thead>
       <Tbody>
-        {/* <Tr onClick={() => addMoney()}><Td>Money</Td><Td isNumeric>0</Td></Tr> */}
         {marketCoins &&
           marketCoins.map((coin, i) => (
             <Tr key={coin.id} onClick={() => handleBuy(coin)}>
@@ -159,8 +175,13 @@ export const MarketList = props => {
                 <Image src={coin.logo_url} boxSize="20px" />
               </Td>
               <Td>{coin.id}</Td>
-              {/* <Td color={getColor(x["1d"].price_change_pct)}>{roundToTwo(x["1d"].price_change_pct)}%</Td> */}
-              {/* <Td color={getColor(x["30d"].price_change_pct)}>{roundToTwo(x["30d"].price_change_pct)}%</Td> */}
+              {/* <Td color={getColor(coin['1d'].price_change_pct)}>
+                {roundToTwo(coin['1d'].price_change_pct)}%
+              </Td>
+              <Td color={getColor(coin['30d'].price_change_pct)}>
+                {roundToTwo(coin['30d'].price_change_pct)}%
+              </Td> */}
+
               <Td isNumeric>${roundToTwo(coin.price)}</Td>
             </Tr>
           ))}
