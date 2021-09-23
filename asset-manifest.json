@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/cryptoplayground/static/js/main.b730ed79.chunk.js",
-    "main.js.map": "/cryptoplayground/static/js/main.b730ed79.chunk.js.map",
-    "runtime-main.js": "/cryptoplayground/static/js/runtime-main.e6de5e9f.js",
-    "runtime-main.js.map": "/cryptoplayground/static/js/runtime-main.e6de5e9f.js.map",
-    "static/js/2.9c761819.chunk.js": "/cryptoplayground/static/js/2.9c761819.chunk.js",
-    "static/js/2.9c761819.chunk.js.map": "/cryptoplayground/static/js/2.9c761819.chunk.js.map",
-    "static/js/3.dcaab7ff.chunk.js": "/cryptoplayground/static/js/3.dcaab7ff.chunk.js",
-    "static/js/3.dcaab7ff.chunk.js.map": "/cryptoplayground/static/js/3.dcaab7ff.chunk.js.map",
+    "main.js": "/cryptoplayground/static/js/main.7068b713.chunk.js",
+    "main.js.map": "/cryptoplayground/static/js/main.7068b713.chunk.js.map",
+    "runtime-main.js": "/cryptoplayground/static/js/runtime-main.39b5e3bb.js",
+    "runtime-main.js.map": "/cryptoplayground/static/js/runtime-main.39b5e3bb.js.map",
+    "static/js/2.aa703a8c.chunk.js": "/cryptoplayground/static/js/2.aa703a8c.chunk.js",
+    "static/js/2.aa703a8c.chunk.js.map": "/cryptoplayground/static/js/2.aa703a8c.chunk.js.map",
+    "static/js/3.06543972.chunk.js": "/cryptoplayground/static/js/3.06543972.chunk.js",
+    "static/js/3.06543972.chunk.js.map": "/cryptoplayground/static/js/3.06543972.chunk.js.map",
     "index.html": "/cryptoplayground/index.html",
-    "static/js/2.9c761819.chunk.js.LICENSE.txt": "/cryptoplayground/static/js/2.9c761819.chunk.js.LICENSE.txt"
+    "static/js/2.aa703a8c.chunk.js.LICENSE.txt": "/cryptoplayground/static/js/2.aa703a8c.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.e6de5e9f.js",
-    "static/js/2.9c761819.chunk.js",
-    "static/js/main.b730ed79.chunk.js"
+    "static/js/runtime-main.39b5e3bb.js",
+    "static/js/2.aa703a8c.chunk.js",
+    "static/js/main.7068b713.chunk.js"
   ]
 }
