@@ -1,17 +1,7 @@
-import {
-  Button,
-  useDisclosure,
-  Box,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  HStack,
-} from '@chakra-ui/react';
 import { MoonIcon, NotAllowedIcon } from '@chakra-ui/icons';
+import {
+    Box, Button, HStack, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure
+} from '@chakra-ui/react';
 import { roundToTwo } from '../Util';
 
 export const SellButton = (props) => {

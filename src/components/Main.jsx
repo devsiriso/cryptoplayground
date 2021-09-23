@@ -20,21 +20,21 @@ export const Main = () => {
   const [money, setMoney] = useState(1000);
   const [coins, setCoins] = useState([]);
 
-  const purchaseCoin = (coin) => {
-    if (canAfford(coin)) {
+  const purchaseCoin = (coin, amount) => {
+    if (canAfford(coin, amount)) {
       if (coins.some(e => e.id === coin.id)) {
         let temp = [...coins];
         let index = coins.findIndex(e => e.id === coin.id);
-        temp[index].amountOwned += 1;
+        temp[index].amountOwned += amount;
         setCoins(temp);
       } else {
-        coin.amountOwned = 1;
+        coin.amountOwned = amount;
         setCoins(prevState => [...prevState, coin]);
       }
-      setMoney(money - Number(coin.price));
-      spawnToast(`You successfully acquired 1 ${coin.id} for $${roundToTwo(coin.price)}`)
+      setMoney(money - Number(coin.price * amount));
+      spawnToast(`You successfully acquired ${amount} ${coin.id} for $${roundToTwo(coin.price * amount)}`)
     } else {
-      spawnToast(`You cannot afford to buy ${coin.id} due to lack of funds.`, 'error')
+      spawnToast(`You cannot afford to buy ${amount} ${coin.id} due to lack of funds.`, 'error')
     }
   }
 
@@ -72,8 +72,8 @@ export const Main = () => {
     setMoney(money + 100)
   };
 
-  const canAfford = coin => {
-    return money > coin.price;
+  const canAfford = (coin, amount) => {
+    return money > coin.price * amount;
   }
 
   const toast = useToast();
