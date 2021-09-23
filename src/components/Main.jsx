@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   Box,
   VStack,
+  HStack,
   Grid,
   useToast
 } from '@chakra-ui/react';
@@ -12,6 +13,7 @@ import { Header } from './Header';
 import { roundToTwo } from '../Util';
 import { Money } from './Money';
 import { MoneyButton } from './MoneyButton';
+import { SellButton } from './SellButton';
 
 
 export const Main = () => {
@@ -47,6 +49,22 @@ export const Main = () => {
     setCoins(temp);
     setMoney(money + Number(coin.price)) // TODO: Fetch new price
     spawnToast(`You successfully sold your ${coin.id} for $${roundToTwo(coin.price)}`)
+  }
+
+  const sellAllCoins = () => {
+    let moneyEarned = calculatePortfolioValue();
+    spawnToast(`You've launched off to the moon! Earning you $${roundToTwo(moneyEarned)}!`, "success")
+    setCoins([]);
+    setMoney(money + moneyEarned);
+  }
+
+  const calculatePortfolioValue = () => {
+    let value = 0;
+    coins.forEach(element => {
+      value += element.amountOwned * element.price;
+    });
+
+    return value;
   }
 
   const addMoney = () => {
@@ -85,7 +103,10 @@ export const Main = () => {
             sellCoin={sellCoin}
           />
           <Money money={money}/>
-          <MoneyButton addMoney={addMoney}/>
+          <HStack>
+            <MoneyButton addMoney={addMoney}/>
+            <SellButton sellAllCoins={sellAllCoins} calculatePortfolioValue={calculatePortfolioValue}/>
+          </HStack>
         </VStack>
         <Footer></Footer>
       </Grid>

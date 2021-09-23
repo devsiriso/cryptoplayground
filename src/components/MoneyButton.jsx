@@ -5,10 +5,9 @@ export const MoneyButton = props => {
   return (
     <Box>
       <Button
-        variant="outline"
+        variant="solid"
         leftIcon={<AddIcon />}
         colorScheme="teal"
-        variant="solid"
         size="lg"
         onClick={() => props.addMoney()}
       >
