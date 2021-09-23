@@ -70,8 +70,12 @@ export const MarketList = props => {
   const [currentCoin, setCurrentCoin] = useState({});
   const [amount, setAmount] = useState(0);
   const handleBuy = coin => {
-    setCurrentCoin(coin);
+    if(props.money> coin.price) {
+        setCurrentCoin(coin);
     onOpen();
+    } else {
+        props.spawnToast(`You do not have enough funds to acquire ${coin.id}`, "error")
+    }
   };
 
   return (
@@ -83,7 +87,7 @@ export const MarketList = props => {
           <ModalBody textAlign="center">
             <VStack>
               <Text>How much {currentCoin.id} would you like to purchase?</Text>
-              <NumberInput defaultValue={1} min={1} onChange={(value) => setAmount(value)}
+              <NumberInput defaultValue={0} min={0} max={props.money / currentCoin.price} onChange={(value) => setAmount(value)}
       value={amount}>
                 <NumberInputField />
                 <NumberInputStepper>
