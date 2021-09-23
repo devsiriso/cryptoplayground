@@ -72,7 +72,7 @@ export const MarketList = props => {
   const handleBuy = coin => {
     if(props.money> coin.price) {
         setCurrentCoin(coin);
-    onOpen();
+        onOpen();
     } else {
         props.spawnToast(`You do not have enough funds to acquire ${coin.id}`, "error")
     }
@@ -104,7 +104,7 @@ export const MarketList = props => {
               <Button
                 leftIcon={<NotAllowedIcon />}
                 colorScheme="red"
-                onClick={onClose}
+                onClick={() => {onClose(); setAmount(0)}}
                 variant="outline"
               >
                 Cancel
@@ -113,7 +113,7 @@ export const MarketList = props => {
                 leftIcon={<CheckCircleIcon />}
                 colorScheme="purple"
                 variant="outline"
-                onClick={() => {props.purchaseCoin(currentCoin, amount); onClose()}}
+                onClick={() => {props.purchaseCoin(currentCoin, amount); onClose(); setAmount(0)}}
               >
                 Buy
               </Button>

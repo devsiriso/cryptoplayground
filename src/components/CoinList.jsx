@@ -66,7 +66,7 @@ export const CoinList = props => {
               <Button
                 leftIcon={<NotAllowedIcon />}
                 colorScheme="red"
-                onClick={onClose}
+                onClick={() => {onClose(); setAmount(0)}}
                 variant="outline"
               >
                 Cancel
