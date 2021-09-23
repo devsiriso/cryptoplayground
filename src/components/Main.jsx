@@ -38,17 +38,14 @@ export const Main = () => {
     }
   }
 
-  const sellCoin = (coin) => {
+  const sellCoin = (coin, amount) => {
     let temp = [...coins];
     let index = temp.findIndex(e => e.id === coin.id);
-    if (temp[index].amountOwned > 1) {
-      temp[index].amountOwned -= 1;
-    } else {
-      temp.splice(index, 1);
-    }
+    temp[index].amountOwned = temp[index].amountOwned - amount;
+    if(temp[index].amountOwned === 0) temp.splice(index, 1);
     setCoins(temp);
-    setMoney(money + Number(coin.price)) // TODO: Fetch new price
-    spawnToast(`You successfully sold your ${coin.id} for $${roundToTwo(coin.price)}`)
+    setMoney(money + Number(coin.price * amount)) // TODO: Fetch new price
+    spawnToast(`You successfully sold your ${amount} ${coin.id} for $${roundToTwo(coin.price * amount)}`)
   }
 
   const sellAllCoins = () => {
