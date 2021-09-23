@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/cryptoplayground/static/js/main.7068b713.chunk.js",
-    "main.js.map": "/cryptoplayground/static/js/main.7068b713.chunk.js.map",
+    "main.js": "/cryptoplayground/static/js/main.613e37b4.chunk.js",
+    "main.js.map": "/cryptoplayground/static/js/main.613e37b4.chunk.js.map",
     "runtime-main.js": "/cryptoplayground/static/js/runtime-main.39b5e3bb.js",
     "runtime-main.js.map": "/cryptoplayground/static/js/runtime-main.39b5e3bb.js.map",
     "static/js/2.aa703a8c.chunk.js": "/cryptoplayground/static/js/2.aa703a8c.chunk.js",
@@ -14,6 +14,6 @@
   "entrypoints": [
     "static/js/runtime-main.39b5e3bb.js",
     "static/js/2.aa703a8c.chunk.js",
-    "static/js/main.7068b713.chunk.js"
+    "static/js/main.613e37b4.chunk.js"
   ]
 }
