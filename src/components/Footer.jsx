@@ -3,6 +3,7 @@ import React from "react"
 import { Copyright } from './Copyright'
 import { Logo } from './Logo'
 import { SocialMediaLinks } from './SocialMediaLinks'
+import { NomicsCredit } from './NomicsCredit'
 
 export const Footer = () => {
   return (
@@ -32,6 +33,7 @@ export const Footer = () => {
             sm: 'start',
           }}
         />
+            <NomicsCredit/>
       </Stack>
     </Box>
   )
