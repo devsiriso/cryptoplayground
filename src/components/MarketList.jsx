@@ -69,7 +69,7 @@ export const MarketList = props => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentCoin, setCurrentCoin] = useState({});
   const [amount, setAmount] = useState(0);
-  const handleSell = coin => {
+  const handleBuy = coin => {
     setCurrentCoin(coin);
     onOpen();
   };
@@ -150,7 +150,7 @@ export const MarketList = props => {
         {/* <Tr onClick={() => addMoney()}><Td>Money</Td><Td isNumeric>0</Td></Tr> */}
         {marketCoins &&
           marketCoins.map((coin, i) => (
-            <Tr key={coin.id} onClick={() => handleSell(coin)}>
+            <Tr key={coin.id} onClick={() => handleBuy(coin)}>
               <Td>
                 <Image src={coin.logo_url} boxSize="20px" />
               </Td>
