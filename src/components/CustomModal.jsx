@@ -7,14 +7,14 @@ import {
     ModalOverlay, useDisclosure
 } from '@chakra-ui/react';
 
-export const CustomModal = ({ showModalButtonText, modalHeader, modalBody }) => {
+export const CustomModal = ({ showModalButtonText, modalHeader, modalBody, coin }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     return (
       <>
-        <Button colorScheme="red" size="xs" onClick={onOpen}>
+        <Button colorScheme="green" variant="outline" onClick={onOpen}>
           {showModalButtonText}
         </Button>
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={onClose} isCentered size="xs">
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>{modalHeader}</ModalHeader>

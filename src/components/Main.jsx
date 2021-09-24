@@ -5,6 +5,7 @@ import {
   HStack,
   Grid,
   useToast,
+  Flex,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -14,6 +15,7 @@ import {
   ModalCloseButton,
   Button,
   useDisclosure,
+  ButtonGroup,
 } from '@chakra-ui/react';
 import { MarketList } from './MarketList';
 import { CoinList } from './CoinList';
@@ -111,10 +113,9 @@ export const Main = () => {
   };
 
   return (
-    <Box textAlign="center" fontSize="xl">
-      <Grid minH="100vh" p={3}>
-        <Header />
-        <VStack spacing={4}>
+    <Grid p={2} >
+        <VStack justifyContent="space-between">
+          <Header />
           <MarketList
             spawnToast={spawnToast}
             money={money}
@@ -123,16 +124,24 @@ export const Main = () => {
           />
           <CoinList spawnToast={spawnToast} coins={coins} sellCoin={sellCoin} />
           <Money money={money} />
-          <HStack>
+          {/* <Flex grow="column" wrap="wrap" justifyContent="space-around" spacing={50}>
             <MoneyButton addMoney={addMoney} />
             <SellButton
               sellAllCoins={sellAllCoins}
               calculatePortfolioValue={calculatePortfolioValue}
             />
-          </HStack>
+          </Flex> */}
+          <VStack>
+            <MoneyButton addMoney={addMoney} width={350} />
+            <SellButton
+              sellAllCoins={sellAllCoins}
+              width={350}
+              calculatePortfolioValue={calculatePortfolioValue}
+            />
+          </VStack>
+          {/* <Footer></Footer> */}
         </VStack>
-        <Footer></Footer>
+        
       </Grid>
-    </Box>
   );
 };

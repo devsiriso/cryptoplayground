@@ -90,7 +90,7 @@ export const CoinList = props => {
       <Flex
         minH={50}
         wrap="wrap"
-        border="1px solid grey"
+        border="1px solid #303b52"
         borderRadius={5}
         justifyContent="space-around"
         p={2}
@@ -103,7 +103,7 @@ export const CoinList = props => {
             </Flex>
           ))
         ) : (
-          <Text color="gray">Your coins will appear here.</Text>
+          <Text color="#303b52">Your coins will appear here.</Text>
         )}
       </Flex>
     </Flex>

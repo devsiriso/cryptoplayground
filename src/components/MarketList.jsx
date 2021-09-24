@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Spacer,
+  Divider,
+  Flex,
   Table,
   Thead,
   Tbody,
@@ -24,15 +27,19 @@ import {
   NumberDecrementStepper,
   VStack,
   Text,
+  List,
+  ListItem,
+  Box,
 } from '@chakra-ui/react';
 import { RepeatIcon, NotAllowedIcon, CheckCircleIcon } from '@chakra-ui/icons';
 import { Image } from '@chakra-ui/react';
 import { roundToTwo } from '../Util';
-
+import { getMarketCoins } from '../services/ApiService';
+import { CustomModal } from './CustomModal';
 // DECENT LOOKING COINS: BTC,TRX,TEL,BNB,ETC,USDP:
 
 export const MarketList = props => {
-  const COINS_TO_FETCH = 'BTC, ETH, BNB, ETC, USDP';
+  const COINS_TO_FETCH = 'BTC, ETH, BNB, USDP,BTC,TRX,TEL,BNB,ETC,USDP';
   const API_KEY = process.env.REACT_APP_API_KEY;
   const URL = `https://api.nomics.com/v1/currencies/ticker?key=${API_KEY}&ids=${COINS_TO_FETCH}&interval=1d,30d&per-page=100&page=1`;
 
@@ -58,7 +65,8 @@ export const MarketList = props => {
   };
 
   useEffect(() => {
-    fetchCoins(); 
+    // fetchCoins();
+    setMarketCoins(getMarketCoins());
   }, []);
 
   const getColor = change => {
@@ -82,110 +90,148 @@ export const MarketList = props => {
   };
 
   return (
-    <Table variant="simple">
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader textAlign="center">Buying: {currentCoin.id}</ModalHeader>
-          <ModalBody textAlign="center">
-            <VStack>
-              <Text>How much {currentCoin.id} would you like to purchase?</Text>
-              <NumberInput
-                defaultValue={0}
-                min={0}
-                max={props.money / currentCoin.price}
-                onChange={value => setAmount(value)}
-                value={amount}
-              >
-                <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
-              <Text>
-                Total price: ${roundToTwo(amount * currentCoin.price)}
-              </Text>
-            </VStack>
-          </ModalBody>
+    <List
+      width="100%"
+      style={{ maxHeight: '40%', overflow: 'auto', overflowInline: 'hidden' }}
+    >
+      {marketCoins &&
+        marketCoins.map((coin, i) => (
+          <Flex direction="column">
+            <Flex key={coin.id} justifyContent="space-between">
+              <HStack>
+                <Image src={coin.logo_url} boxSize="30px" />
+                <Flex direction="column" style={{ textAlign: 'left' }}>
+                  <Text>{coin.id}</Text>
+                  <Text fontSize="sm">{coin.name}</Text>
+                </Flex>
+              </HStack>
 
-          <ModalFooter justifyContent="center">
-            <HStack>
-              <Button
-                leftIcon={<NotAllowedIcon />}
-                colorScheme="red"
-                onClick={() => {
-                  onClose();
-                  setAmount(0);
-                }}
-                variant="outline"
-              >
-                Cancel
-              </Button>
-              <Button
-                leftIcon={<CheckCircleIcon />}
-                colorScheme="purple"
-                variant="outline"
-                onClick={() => {
-                  props.purchaseCoin(currentCoin, amount);
-                  onClose();
-                  setAmount(0);
-                }}
-              >
-                Buy
-              </Button>
-            </HStack>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-      <TableCaption>Last update: {lastFetch}</TableCaption>
-      <Thead>
-        <Tr>
-          <Th>
-            {isLoaded ? (
-              <IconButton
-                variant="outline"
-                colorScheme="teal"
-                size="xs"
-                onClick={() => fetchCoins()}
-                icon={<RepeatIcon />}
-              />
-            ) : (
-              <IconButton
-                isLoading
-                variant="outline"
-                colorScheme="teal"
-                size="xs"
-                onClick={() => fetchCoins()}
-                icon={<RepeatIcon />}
-              />
-            )}
-          </Th>
-          <Th>Coin</Th>
-          {/* <Th>Day Δ</Th>
-          <Th>Month Δ</Th> */}
-          <Th isNumeric>Price</Th>
-        </Tr>
-      </Thead>
-      <Tbody>
-        {marketCoins &&
-          marketCoins.map((coin, i) => (
-            <Tr key={coin.id} onClick={() => handleBuy(coin)}>
-              <Td>
-                <Image src={coin.logo_url} boxSize="20px" />
-              </Td>
-              <Td>{coin.id}</Td>
-              {/* <Td color={getColor(coin['1d'].price_change_pct)}>
-                {roundToTwo(coin['1d'].price_change_pct)}%
-              </Td>
-              <Td color={getColor(coin['30d'].price_change_pct)}>
-                {roundToTwo(coin['30d'].price_change_pct)}%
-              </Td> */}
+              <HStack>
+                <Flex direction="column" style={{ textAlign: 'right' }}>
+                  <Text>${roundToTwo(coin.price)}</Text>
+                  <Text
+                    fontSize="sm"
+                    color={getColor(coin['30d'].price_change_pct)}
+                  >
+                    {roundToTwo(coin['30d'].price_change_pct)}%
+                  </Text>
+                </Flex>
+                <CustomModal
+                  showModalButtonText="+"
+                  modalHeader=""
+                  modalBody="Edit Modal"
+                  
+                />
+              </HStack>
+            </Flex>
+            <Divider m={2} />
+          </Flex>
+        ))}
+    </List>
+    // <Table variant="simple">
+    //   <Modal isOpen={isOpen} onClose={onClose}>
+    //     <ModalOverlay />
+    //     <ModalContent>
+    //       <ModalHeader textAlign="center">Buying: {currentCoin.id}</ModalHeader>
+    //       <ModalBody textAlign="center">
+    //         <VStack>
+    //           <Text>How much {currentCoin.id} would you like to purchase?</Text>
+    //           <NumberInput
+    //             defaultValue={0}
+    //             min={0}
+    //             max={props.money / currentCoin.price}
+    //             onChange={value => setAmount(value)}
+    //             value={amount}
+    //           >
+    //             <NumberInputField />
+    //             <NumberInputStepper>
+    //               <NumberIncrementStepper />
+    //               <NumberDecrementStepper />
+    //             </NumberInputStepper>
+    //           </NumberInput>
+    //           <Text>
+    //             Total price: ${roundToTwo(amount * currentCoin.price)}
+    //           </Text>
+    //         </VStack>
+    //       </ModalBody>
 
-              <Td isNumeric>${roundToTwo(coin.price)}</Td>
-            </Tr>
-          ))}
-      </Tbody>
-    </Table>
+    //       <ModalFooter justifyContent="center">
+    //         <HStack>
+    //           <Button
+    //             leftIcon={<NotAllowedIcon />}
+    //             colorScheme="red"
+    //             onClick={() => {
+    //               onClose();
+    //               setAmount(0);
+    //             }}
+    //             variant="outline"
+    //           >
+    //             Cancel
+    //           </Button>
+    //           <Button
+    //             leftIcon={<CheckCircleIcon />}
+    //             colorScheme="purple"
+    //             variant="outline"
+    //             onClick={() => {
+    //               props.purchaseCoin(currentCoin, amount);
+    //               onClose();
+    //               setAmount(0);
+    //             }}
+    //           >
+    //             Buy
+    //           </Button>
+    //         </HStack>
+    //       </ModalFooter>
+    //     </ModalContent>
+    //   </Modal>
+    //   <TableCaption>Last update: {lastFetch}</TableCaption>
+    //   <Thead>
+    //     <Tr>
+    //       <Th>
+    //         {isLoaded ? (
+    //           <IconButton
+    //             variant="outline"
+    //             colorScheme="teal"
+    //             size="xs"
+    //             onClick={() => fetchCoins()}
+    //             icon={<RepeatIcon />}
+    //           />
+    //         ) : (
+    //           <IconButton
+    //             isLoading
+    //             variant="outline"
+    //             colorScheme="teal"
+    //             size="xs"
+    //             onClick={() => fetchCoins()}
+    //             icon={<RepeatIcon />}
+    //           />
+    //         )}
+    //       </Th>
+    //       <Th>Coin</Th>
+    //       {/* <Th>Day Δ</Th>
+    //       <Th>Month Δ</Th> */}
+    //       <Th isNumeric>Price</Th>
+    //     </Tr>
+    //   </Thead>
+    //   <Tbody>
+    //     {marketCoins &&
+    //       marketCoins.map((coin, i) => (
+    //         <Tr key={coin.id} onClick={() => handleBuy(coin)}>
+    //           <Td>
+    //             <Image src={coin.logo_url} boxSize="20px" />
+    //           </Td>
+    //           <Td>{coin.id}</Td>
+    //           {/* <Td color={getColor(coin['1d'].price_change_pct)}>
+    //             {roundToTwo(coin['1d'].price_change_pct)}%
+    //           </Td>
+    //           <Td color={getColor(coin['30d'].price_change_pct)}>
+    //             {roundToTwo(coin['30d'].price_change_pct)}%
+    //           </Td> */}
+
+    //           <Td isNumeric>${roundToTwo(coin.price)}</Td>
+    //         </Tr>
+    //       ))}
+    //   </Tbody>
+    // </Table>
   );
 };

@@ -37,8 +37,7 @@ export const SellButton = (props) => {
       <Button
         variant="solid"
         leftIcon={<MoonIcon />}
-
-        size="lg"
+        width={props.width}
         colorScheme="purple"
         onClick={onOpen}
       >

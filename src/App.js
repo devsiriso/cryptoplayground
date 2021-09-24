@@ -8,8 +8,8 @@ import { Main } from './components/Main';
 
 function App() {
   return (
-    <ChakraProvider theme={theme}>
-      <Main />
+    <ChakraProvider theme={theme} >
+      <Main/>
     </ChakraProvider>
   );
 }
