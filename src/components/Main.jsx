@@ -1,4 +1,4 @@
-import { Grid, useToast, VStack, Heading } from '@chakra-ui/react';
+import { Grid, Flex, useToast, VStack, Heading } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { roundToTwo } from '../Util';
 import { CoinList } from './CoinList';
@@ -96,7 +96,7 @@ export const Main = () => {
   };
 
   return (
-    <Grid p={2}>
+    <Flex p={2}>
       <VStack justifyContent="space-between">
         <Header />
         <Heading size="md" textAlign="center">
@@ -119,8 +119,9 @@ export const Main = () => {
           />
           
         </VStack>
+        <Footer></Footer>
       </VStack>
-      <Footer></Footer>
-    </Grid>
+      
+    </Flex>
   );
 };
