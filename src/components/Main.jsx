@@ -97,7 +97,7 @@ export const Main = () => {
 
   return (
     <Flex p={2} align="center">
-      <VStack justifyContent="space-between">
+      <VStack justifyContent="space-between" width="100%">
         <Header />
         <Heading size="md" textAlign="center">
           Marketplace
