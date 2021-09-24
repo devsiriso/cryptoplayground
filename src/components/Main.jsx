@@ -96,7 +96,7 @@ export const Main = () => {
   };
 
   return (
-    <Flex p={2}>
+    <Flex p={2} align="center">
       <VStack justifyContent="space-between">
         <Header />
         <Heading size="md" textAlign="center">
