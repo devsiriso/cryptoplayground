@@ -67,8 +67,8 @@ export const Market = ({purchaseCoin, money, spawnToast}) => {
   };
 
   useEffect(() => {
-    fetchCoins();
-    // setMarketCoins(getMarketCoins());
+    // fetchCoins();
+    setMarketCoins(getMarketCoins());
   }, []);
 
   const getColor = change => {
