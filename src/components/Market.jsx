@@ -40,7 +40,7 @@ import { MarketList } from './MarketList';
 // DECENT LOOKING COINS: BTC,TRX,TEL,BNB,ETC,USDP:
 
 export const Market = ({purchaseCoin, money, spawnToast}) => {
-  const COINS_TO_FETCH = 'BTC, ETH, BNB, USDP,BTC,TRX,TEL,BNB,ETC,USDP';
+  const COINS_TO_FETCH = 'BTC, ETH, BNB, USDP,BTC,TRX,TEL,BNB,ETC,USDP,DOGE,ADA,SOL,USDT,BCH';
   const API_KEY = process.env.REACT_APP_API_KEY;
   const URL = `https://api.nomics.com/v1/currencies/ticker?key=${API_KEY}&ids=${COINS_TO_FETCH}&interval=1d,30d&per-page=100&page=1`;
 
@@ -56,6 +56,7 @@ export const Market = ({purchaseCoin, money, spawnToast}) => {
         result => {
           setIsLoaded(true);
           setLastFetch(new Date().toUTCString());
+          console.log(result);
           setMarketCoins(result);
         },
         error => {
@@ -75,26 +76,13 @@ export const Market = ({purchaseCoin, money, spawnToast}) => {
     if (change > 0) return 'green.400';
   };
 
-  // const [currentCoin, setCurrentCoin] = useState({});
-  // const [amount, setAmount] = useState(0);
-  // const handleBuy = coin => {
-  //   if (props.money > coin.price) {
-  //     setCurrentCoin(coin);
-  //   } else {
-  //     props.spawnToast(
-  //       `You do not have enough funds to acquire ${coin.id}`,
-  //       'error'
-  //     );
-  //   }
-  // };
-
   return (
     <MarketList
-      marketCoins={marketCoins}
-      getColor={getColor}
-      purchaseCoin={purchaseCoin}
-      money={money}
-      spawnToast={spawnToast}
-    ></MarketList>
+    marketCoins={marketCoins}
+    getColor={getColor}
+    purchaseCoin={purchaseCoin}
+    money={money}
+    spawnToast={spawnToast}
+  ></MarketList>
   );
 };

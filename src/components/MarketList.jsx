@@ -21,14 +21,15 @@ export const MarketList = ({
 }) => {
   return (
     <List
-        width="95%"
+        width="100%"
+        maxHeight="50vh"
         style={{
-          
           overflowY: 'auto',
           overflowX: 'hidden',
           overflowInline: 'hidden',
         }}
       >
+          <Divider m={2} />
         {marketCoins &&
           marketCoins.map((coin, i) => (
             <Flex direction="column">
@@ -48,7 +49,7 @@ export const MarketList = ({
                       fontSize="sm"
                       color={getColor(coin['1d'].price_change_pct)}
                     >
-                      {roundToTwo(coin['1d'].price_change)}({roundToTwo(coin['1d'].price_change_pct)}%)
+                      {roundToTwo(coin['1d'].price_change)} ({roundToTwo(coin['1d'].price_change_pct)}%)
                     </Text>
                   </Flex>
                   <BuyModal

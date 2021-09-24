@@ -13,7 +13,7 @@ export const Header = () => {
             <Stack direction="row" spacing="4" align="center" justify="space-between">
 
           <Logo />
-          <Heading size="md" >CryptoPlayground</Heading>
+          <Heading size="lg" >CryptoPlayground</Heading>
    
         </Stack>
         </Flex>

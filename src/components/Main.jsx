@@ -1,7 +1,4 @@
-import {
-  Grid,
-  useToast, VStack
-} from '@chakra-ui/react';
+import { Grid, useToast, VStack, Heading } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { roundToTwo } from '../Util';
 import { CoinList } from './CoinList';
@@ -10,7 +7,7 @@ import { Market } from './Market';
 import { Money } from './Money';
 import { MoneyButton } from './MoneyButton';
 import { SellButton } from './SellButton';
-import { Footer } from './Footer'
+import { Footer } from './Footer';
 
 export const Main = () => {
   const [money, setMoney] = useState(1000);
@@ -99,27 +96,31 @@ export const Main = () => {
   };
 
   return (
-    <Grid p={2} >
-        <VStack justifyContent="space-between">
-          <Header />
-          <Market
-            spawnToast={spawnToast}
-            money={money}
-            setMoney={setMoney}
-            purchaseCoin={purchaseCoin}
+    <Grid p={2}>
+      <VStack justifyContent="space-between">
+        <Header />
+        <Heading size="md" textAlign="center">
+          Marketplace
+        </Heading>
+        <Market
+          spawnToast={spawnToast}
+          money={money}
+          setMoney={setMoney}
+          purchaseCoin={purchaseCoin}
+        />
+        <CoinList spawnToast={spawnToast} coins={coins} sellCoin={sellCoin} />
+        <Money money={money} />
+        <VStack>
+          <MoneyButton addMoney={addMoney} width={350} />
+          <SellButton
+            sellAllCoins={sellAllCoins}
+            width={350}
+            calculatePortfolioValue={calculatePortfolioValue}
           />
-          <CoinList spawnToast={spawnToast} coins={coins} sellCoin={sellCoin} />
-          <Money money={money} />
-          <VStack>
-            <MoneyButton addMoney={addMoney} width={350} />
-            <SellButton
-              sellAllCoins={sellAllCoins}
-              width={350}
-              calculatePortfolioValue={calculatePortfolioValue}
-            />
-            <Footer></Footer>
-          </VStack>
+          
         </VStack>
-      </Grid>
+      </VStack>
+      <Footer></Footer>
+    </Grid>
   );
 };
