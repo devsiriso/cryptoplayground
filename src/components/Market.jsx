@@ -39,7 +39,7 @@ import { BuyModal } from './BuyModal';
 import { MarketList } from './MarketList';
 // DECENT LOOKING COINS: BTC,TRX,TEL,BNB,ETC,USDP:
 
-export const Market = ({purchaseCoin, money}) => {
+export const Market = ({purchaseCoin, money, spawnToast}) => {
   const COINS_TO_FETCH = 'BTC, ETH, BNB, USDP,BTC,TRX,TEL,BNB,ETC,USDP';
   const API_KEY = process.env.REACT_APP_API_KEY;
   const URL = `https://api.nomics.com/v1/currencies/ticker?key=${API_KEY}&ids=${COINS_TO_FETCH}&interval=1d,30d&per-page=100&page=1`;
@@ -94,6 +94,7 @@ export const Market = ({purchaseCoin, money}) => {
       getColor={getColor}
       purchaseCoin={purchaseCoin}
       money={money}
+      spawnToast={spawnToast}
     ></MarketList>
   );
 };
