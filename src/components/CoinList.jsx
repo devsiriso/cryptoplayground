@@ -93,6 +93,7 @@ export const CoinList = props => {
         border="1px solid #303b52"
         borderRadius={5}
         justifyContent="space-around"
+        align="center"
         p={2}
       >
         {props.coins.length ? (

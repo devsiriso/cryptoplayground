@@ -1,30 +1,16 @@
-import React, { useState } from 'react';
 import {
-  Box,
-  VStack,
-  HStack,
   Grid,
-  useToast,
-  Flex,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  useDisclosure,
-  ButtonGroup,
+  useToast, VStack
 } from '@chakra-ui/react';
-import { MarketList } from './MarketList';
-import { CoinList } from './CoinList';
-import { Footer } from './Footer';
-import { Header } from './Header';
+import React, { useState } from 'react';
 import { roundToTwo } from '../Util';
+import { CoinList } from './CoinList';
+import { Header } from './Header';
+import { Market } from './Market';
 import { Money } from './Money';
 import { MoneyButton } from './MoneyButton';
 import { SellButton } from './SellButton';
+import { Footer } from './Footer'
 
 export const Main = () => {
   const [money, setMoney] = useState(1000);
@@ -35,10 +21,10 @@ export const Main = () => {
       if (coins.some(e => e.id === coin.id)) {
         let temp = [...coins];
         let index = coins.findIndex(e => e.id === coin.id);
-        temp[index].amountOwned += amount;
+        temp[index].amountOwned += Number(amount);
         setCoins(temp);
       } else {
-        coin.amountOwned = amount;
+        coin.amountOwned = Number(amount);
         setCoins(prevState => [...prevState, coin]);
       }
       setMoney(money - Number(coin.price * amount));
@@ -116,7 +102,7 @@ export const Main = () => {
     <Grid p={2} >
         <VStack justifyContent="space-between">
           <Header />
-          <MarketList
+          <Market
             spawnToast={spawnToast}
             money={money}
             setMoney={setMoney}
@@ -124,13 +110,6 @@ export const Main = () => {
           />
           <CoinList spawnToast={spawnToast} coins={coins} sellCoin={sellCoin} />
           <Money money={money} />
-          {/* <Flex grow="column" wrap="wrap" justifyContent="space-around" spacing={50}>
-            <MoneyButton addMoney={addMoney} />
-            <SellButton
-              sellAllCoins={sellAllCoins}
-              calculatePortfolioValue={calculatePortfolioValue}
-            />
-          </Flex> */}
           <VStack>
             <MoneyButton addMoney={addMoney} width={350} />
             <SellButton
@@ -138,10 +117,9 @@ export const Main = () => {
               width={350}
               calculatePortfolioValue={calculatePortfolioValue}
             />
+            <Footer></Footer>
           </VStack>
-          {/* <Footer></Footer> */}
         </VStack>
-        
       </Grid>
   );
 };

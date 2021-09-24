@@ -1,98 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Spacer,
-  Divider,
-  Flex,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  IconButton,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  HStack,
-  useDisclosure,
-  Button,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  VStack,
-  Text,
-  List,
-  ListItem,
-  Box,
-} from '@chakra-ui/react';
-import { RepeatIcon, NotAllowedIcon, CheckCircleIcon } from '@chakra-ui/icons';
-import { Image } from '@chakra-ui/react';
+import { Divider, Flex, HStack, Image, List, Text } from '@chakra-ui/react';
+import React from 'react';
 import { roundToTwo } from '../Util';
-import { getMarketCoins } from '../services/ApiService';
-import { CustomModal } from './CustomModal';
-// DECENT LOOKING COINS: BTC,TRX,TEL,BNB,ETC,USDP:
+import { BuyModal } from './BuyModal';
 
-export const MarketList = props => {
-  const COINS_TO_FETCH = 'BTC, ETH, BNB, USDP,BTC,TRX,TEL,BNB,ETC,USDP';
-  const API_KEY = process.env.REACT_APP_API_KEY;
-  const URL = `https://api.nomics.com/v1/currencies/ticker?key=${API_KEY}&ids=${COINS_TO_FETCH}&interval=1d,30d&per-page=100&page=1`;
-
-  const [marketCoins, setMarketCoins] = useState([]);
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [lastFetch, setLastFetch] = useState(new Date().toUTCString());
-
-  const fetchCoins = async () => {
-    fetch(URL, { mode: 'cors' })
-      .then(res => res.json())
-      .then(
-        result => {
-          setIsLoaded(true);
-          setLastFetch(new Date().toUTCString());
-          setMarketCoins(result);
-        },
-        error => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
-  };
-
-  useEffect(() => {
-    // fetchCoins();
-    setMarketCoins(getMarketCoins());
-  }, []);
-
-  const getColor = change => {
-    if (change < 0) return 'red.400';
-    if (change > 0) return 'green.400';
-  };
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [currentCoin, setCurrentCoin] = useState({});
-  const [amount, setAmount] = useState(0);
-  const handleBuy = coin => {
-    if (props.money > coin.price) {
-      setCurrentCoin(coin);
-      onOpen();
-    } else {
-      props.spawnToast(
-        `You do not have enough funds to acquire ${coin.id}`,
-        'error'
-      );
-    }
-  };
-
+export const MarketList = ({ marketCoins, getColor, purchaseCoin, money }) => {
   return (
     <List
-      width="100%"
-      style={{ maxHeight: '40%', overflow: 'auto', overflowInline: 'hidden' }}
+      width="95%"
+      style={{
+        maxHeight: '40%',
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        overflowInline: 'hidden',
+      }}
     >
       {marketCoins &&
         marketCoins.map((coin, i) => (
@@ -116,11 +36,11 @@ export const MarketList = props => {
                     {roundToTwo(coin['30d'].price_change_pct)}%
                   </Text>
                 </Flex>
-                <CustomModal
+                <BuyModal
                   showModalButtonText="+"
-                  modalHeader=""
-                  modalBody="Edit Modal"
-                  
+                  coin={coin}
+                  money={money}
+                  purchaseCoin={purchaseCoin}
                 />
               </HStack>
             </Flex>
@@ -128,110 +48,5 @@ export const MarketList = props => {
           </Flex>
         ))}
     </List>
-    // <Table variant="simple">
-    //   <Modal isOpen={isOpen} onClose={onClose}>
-    //     <ModalOverlay />
-    //     <ModalContent>
-    //       <ModalHeader textAlign="center">Buying: {currentCoin.id}</ModalHeader>
-    //       <ModalBody textAlign="center">
-    //         <VStack>
-    //           <Text>How much {currentCoin.id} would you like to purchase?</Text>
-    //           <NumberInput
-    //             defaultValue={0}
-    //             min={0}
-    //             max={props.money / currentCoin.price}
-    //             onChange={value => setAmount(value)}
-    //             value={amount}
-    //           >
-    //             <NumberInputField />
-    //             <NumberInputStepper>
-    //               <NumberIncrementStepper />
-    //               <NumberDecrementStepper />
-    //             </NumberInputStepper>
-    //           </NumberInput>
-    //           <Text>
-    //             Total price: ${roundToTwo(amount * currentCoin.price)}
-    //           </Text>
-    //         </VStack>
-    //       </ModalBody>
-
-    //       <ModalFooter justifyContent="center">
-    //         <HStack>
-    //           <Button
-    //             leftIcon={<NotAllowedIcon />}
-    //             colorScheme="red"
-    //             onClick={() => {
-    //               onClose();
-    //               setAmount(0);
-    //             }}
-    //             variant="outline"
-    //           >
-    //             Cancel
-    //           </Button>
-    //           <Button
-    //             leftIcon={<CheckCircleIcon />}
-    //             colorScheme="purple"
-    //             variant="outline"
-    //             onClick={() => {
-    //               props.purchaseCoin(currentCoin, amount);
-    //               onClose();
-    //               setAmount(0);
-    //             }}
-    //           >
-    //             Buy
-    //           </Button>
-    //         </HStack>
-    //       </ModalFooter>
-    //     </ModalContent>
-    //   </Modal>
-    //   <TableCaption>Last update: {lastFetch}</TableCaption>
-    //   <Thead>
-    //     <Tr>
-    //       <Th>
-    //         {isLoaded ? (
-    //           <IconButton
-    //             variant="outline"
-    //             colorScheme="teal"
-    //             size="xs"
-    //             onClick={() => fetchCoins()}
-    //             icon={<RepeatIcon />}
-    //           />
-    //         ) : (
-    //           <IconButton
-    //             isLoading
-    //             variant="outline"
-    //             colorScheme="teal"
-    //             size="xs"
-    //             onClick={() => fetchCoins()}
-    //             icon={<RepeatIcon />}
-    //           />
-    //         )}
-    //       </Th>
-    //       <Th>Coin</Th>
-    //       {/* <Th>Day Δ</Th>
-    //       <Th>Month Δ</Th> */}
-    //       <Th isNumeric>Price</Th>
-    //     </Tr>
-    //   </Thead>
-    //   <Tbody>
-    //     {marketCoins &&
-    //       marketCoins.map((coin, i) => (
-    //         <Tr key={coin.id} onClick={() => handleBuy(coin)}>
-    //           <Td>
-    //             <Image src={coin.logo_url} boxSize="20px" />
-    //           </Td>
-    //           <Td>{coin.id}</Td>
-    //           {/* <Td color={getColor(coin['1d'].price_change_pct)}>
-    //             {roundToTwo(coin['1d'].price_change_pct)}%
-    //           </Td>
-    //           <Td color={getColor(coin['30d'].price_change_pct)}>
-    //             {roundToTwo(coin['30d'].price_change_pct)}%
-    //           </Td> */}
-
-    //           <Td isNumeric>${roundToTwo(coin.price)}</Td>
-    //         </Tr>
-    //       ))}
-    //   </Tbody>
-    // </Table>
   );
 };
