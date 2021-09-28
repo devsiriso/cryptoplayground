@@ -1,5 +1,5 @@
-import { Box, Button, useBreakpointValue } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
+import { Button } from '@chakra-ui/react';
 
 export const MoneyButton = ({width, addMoney}) => {
   return (

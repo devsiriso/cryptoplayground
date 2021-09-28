@@ -25,6 +25,7 @@ export const BuyModal = ({
   money,
   purchaseCoin,
   spawnToast,
+  size,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [amount, setAmount] = useState(0);
@@ -37,7 +38,10 @@ export const BuyModal = ({
 
   const onClick = () => {
     if (coin.price > money) {
-      spawnToast(`You do not have enough funds to acquire ${coin.name}`, 'error');
+      spawnToast(
+        `You do not have enough funds to acquire ${coin.name}`,
+        'error'
+      );
     } else {
       onOpen();
     }
@@ -48,7 +52,7 @@ export const BuyModal = ({
       <Button colorScheme="green" variant="outline" onClick={onClick}>
         {showModalButtonText}
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose} size="xs">
+      <Modal isOpen={isOpen} onClose={onClose} size={size}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader textAlign="center">Buying: {coin.id}</ModalHeader>

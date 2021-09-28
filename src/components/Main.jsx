@@ -100,7 +100,7 @@ export const Main = () => {
 
   const addMoney = () => {
     spawnToast(
-      "YOU'RE BLOODY RICH MATE, WHAT ARE YA GONNA DO WITH ALL THOSE DOLLARYDOOS?",
+      "You have added $100 to your ",
       'warning'
     );
     setMoney(money + 100);

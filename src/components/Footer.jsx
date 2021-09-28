@@ -7,18 +7,7 @@ import { NomicsCredit } from './NomicsCredit'
 
 export const Footer = () => {
   return (
-    <Box
-      as="footer"
-      role="contentinfo"
-      mx="auto"
-      maxW="7xl"
-      maxHeight="100px" // 
-      py="12"
-      px={{
-        base: '4',
-        md: '8',
-      }}
-    >
+    <Box>
       <Stack>
         <Stack direction="row" spacing="4" align="center" justify="space-between">
 

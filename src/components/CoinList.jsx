@@ -1,28 +1,18 @@
+import { CheckCircleIcon, NotAllowedIcon } from '@chakra-ui/icons';
 import {
-  Flex,
-  Image,
-  Text,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  HStack,
-  useDisclosure,
-  Button,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  VStack,
+    Button, Flex, HStack, Image, Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay, NumberDecrementStepper, NumberIncrementStepper, NumberInput,
+    NumberInputField,
+    NumberInputStepper, Text, useDisclosure, VStack
 } from '@chakra-ui/react';
-import { RepeatIcon, NotAllowedIcon, CheckCircleIcon } from '@chakra-ui/icons';
 import React, { useState } from 'react';
 import { roundToTwo } from '../Util';
 
-export const CoinList = props => {
+export const CoinList = ({coins, sellCoin}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentCoin, setCurrentCoin] = useState({});
   const [amount, setAmount] = useState(0);
@@ -76,7 +66,7 @@ export const CoinList = props => {
                 colorScheme="purple"
                 variant="outline"
                 onClick={() => {
-                  props.sellCoin(currentCoin, amount);
+                  sellCoin(currentCoin, amount);
                   onClose();
                   setAmount(0);
                 }}
@@ -96,8 +86,8 @@ export const CoinList = props => {
         align="center"
         p={2}
       >
-        {props.coins.length ? (
-          props.coins.map((coin, i) => (
+        {coins.length ? (
+          coins.map((coin, i) => (
             <Flex key={coin.id} onClick={() => handleSell(coin)}>
               <Image boxSize={30} src={coin.logo_url} />
               <Text marginLeft={2}>{coin.amountOwned}</Text>

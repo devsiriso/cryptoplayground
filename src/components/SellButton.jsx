@@ -1,6 +1,5 @@
 import { MoonIcon, NotAllowedIcon } from '@chakra-ui/icons';
 import {
-  Box,
   Button,
   HStack,
   Modal,
@@ -9,7 +8,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
+  useDisclosure
 } from '@chakra-ui/react';
 import { roundToTwo } from '../Util';
 
