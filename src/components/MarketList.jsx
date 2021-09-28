@@ -1,13 +1,4 @@
-import {
-  Divider,
-  Flex,
-  HStack,
-  Image,
-  List,
-  Text,
-  Heading,
-  Container,
-} from '@chakra-ui/react';
+import { Divider, Flex, HStack, Image, List, Text } from '@chakra-ui/react';
 import React from 'react';
 import { roundToTwo } from '../Util';
 import { BuyModal } from './BuyModal';
@@ -18,53 +9,59 @@ export const MarketList = ({
   purchaseCoin,
   money,
   spawnToast,
+  lastFetch,
+  fetchCoins
 }) => {
   return (
-    <List
-      width="100%"
-      maxHeight="50vh"
-      style={{
-        overflowY: 'auto',
-        overflowX: 'hidden',
-        overflowInline: 'hidden',
-      }}
-    >
-      <Divider m={2} />
-      {marketCoins &&
-        marketCoins.map((coin, i) => (
-          <Flex direction="column">
-            <Flex key={coin.id} justifyContent="space-between">
-              <HStack>
-                <Image src={coin.logo_url} boxSize="30px" />
-                <Flex direction="column" style={{ textAlign: 'left' }}>
-                  <Text>{coin.id}</Text>
-                  <Text fontSize="sm">{coin.name}</Text>
-                </Flex>
-              </HStack>
+    <Flex direction="column" width="100%" align="center">
+      <List
+        width="100%"
+        maxHeight="50vh"
+        style={{
+          overflowY: 'auto',
+          overflowX: 'hidden',
+          overflowInline: 'hidden',
+        }}
+      >
+          <Divider m={2}/>
+        {marketCoins &&
+          marketCoins.map((coin, i) => (
+            <Flex direction="column" key={coin.id}>
+              <Flex key={coin.id} justifyContent="space-between">
+                <HStack>
+                  <Image src={coin.logo_url} boxSize="30px" />
+                  <Flex direction="column" style={{ textAlign: 'left' }}>
+                    <Text>{coin.id}</Text>
+                    <Text fontSize="sm">{coin.name}</Text>
+                  </Flex>
+                </HStack>
 
-              <HStack>
-                <Flex direction="column" style={{ textAlign: 'right' }}>
-                  <Text>${roundToTwo(coin.price)}</Text>
-                  <Text
-                    fontSize="sm"
-                    color={getColor(coin['1d'].price_change_pct)}
-                  >
-                    {roundToTwo(coin['1d'].price_change)} (
-                    {roundToTwo(coin['1d'].price_change_pct)}%)
-                  </Text>
-                </Flex>
-                <BuyModal
-                  showModalButtonText="+"
-                  coin={coin}
-                  money={money}
-                  purchaseCoin={purchaseCoin}
-                  spawnToast={spawnToast}
-                />
-              </HStack>
+                <HStack>
+                  <Flex direction="column" style={{ textAlign: 'right' }}>
+                    <Text>${roundToTwo(coin.price)}</Text>
+                    <Text
+                      fontSize="sm"
+                      color={getColor(coin['1d'].price_change_pct)}
+                    >
+                      {roundToTwo(coin['1d'].price_change)}(
+                      {roundToTwo(coin['1d'].price_change_pct)}%)
+                    </Text>
+                  </Flex>
+                  <BuyModal
+                    showModalButtonText="+"
+                    coin={coin}
+                    money={money}
+                    purchaseCoin={purchaseCoin}
+                    spawnToast={spawnToast}
+                    size="xs"
+                  />
+                </HStack>
+              </Flex>
+              <Divider m={2} />
             </Flex>
-            <Divider m={2} />
-          </Flex>
-        ))}
-    </List>
+          ))}
+      </List>
+      <Text as="u" onClick={fetchCoins} textAlign="center">Last update: {lastFetch} (click to refresh)</Text>
+    </Flex>
   );
 };
