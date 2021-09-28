@@ -1,5 +1,12 @@
-import { Grid, Flex, useToast, VStack, Heading } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import {
+  Grid,
+  Flex,
+  useToast,
+  VStack,
+  Heading,
+  HStack,
+} from '@chakra-ui/react';
+import React, { useState, useEffect } from 'react';
 import { roundToTwo } from '../Util';
 import { CoinList } from './CoinList';
 import { Header } from './Header';
@@ -10,6 +17,19 @@ import { SellButton } from './SellButton';
 import { Footer } from './Footer';
 
 export const Main = () => {
+  const [isDesktop, setDesktop] = useState(window.innerWidth > 1450);
+
+  console.log(1200);
+
+  const updateMedia = () => {
+    setDesktop(window.innerWidth > 1200);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', updateMedia);
+    return () => window.removeEventListener('resize', updateMedia);
+  });
+
   const [money, setMoney] = useState(1000);
   const [coins, setCoins] = useState([]);
 
@@ -103,25 +123,52 @@ export const Main = () => {
           Marketplace
         </Heading>
         <Market
+          isDesktop={isDesktop}
           spawnToast={spawnToast}
           money={money}
           setMoney={setMoney}
           purchaseCoin={purchaseCoin}
         />
-        <CoinList spawnToast={spawnToast} coins={coins} sellCoin={sellCoin} />
+        <CoinList
+          isDesktop={isDesktop}
+          spawnToast={spawnToast}
+          coins={coins}
+          sellCoin={sellCoin}
+        />
         <Money money={money} />
-        <VStack>
-          <MoneyButton addMoney={addMoney} width={350} />
-          <SellButton
-            sellAllCoins={sellAllCoins}
-            width={350}
-            calculatePortfolioValue={calculatePortfolioValue}
-          />
-          
-        </VStack>
-        <Footer></Footer>
+        {isDesktop ? (
+          <Flex 
+            width="100vw" 
+            justifyContent="space-between"
+          >
+            <MoneyButton 
+              addMoney={addMoney} 
+              width="50vw" 
+            />
+            <SellButton
+              sellAllCoins={sellAllCoins}
+              width="50vw"
+              calculatePortfolioValue={calculatePortfolioValue}
+            />
+          </Flex>
+        ) : (
+          <Flex 
+            flexDirection="column" 
+            width="100vw"
+            >
+            <MoneyButton 
+              addMoney={addMoney} 
+              width="auto" 
+              />
+            <SellButton
+              sellAllCoins={sellAllCoins}
+              calculatePortfolioValue={calculatePortfolioValue}
+              width="auto"
+            />
+          </Flex>
+        )}
+        <Footer />
       </VStack>
-      
     </Flex>
   );
 };
