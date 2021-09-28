@@ -1,126 +1,103 @@
+import { RepeatIcon } from '@chakra-ui/icons';
 import {
-    Button, HStack, IconButton,
-    Modal,
-    ModalBody,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    Image,
-    ModalOverlay, NumberDecrementStepper, NumberIncrementStepper, NumberInput,
-    NumberInputField,
-    NumberInputStepper, Table, TableCaption, Tbody, Td, Text, Th, Thead, Tr, VStack
+  IconButton,
+  Image,
+  Table,
+  TableCaption,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
 } from '@chakra-ui/react';
-import { RepeatIcon, NotAllowedIcon, CheckCircleIcon } from '@chakra-ui/icons';
 import { roundToTwo } from '../Util';
-export const MarketTable= ({handleBuy, lastFetch, fetchCoins, isLoaded, marketCoins}) => {
+import { BuyModal } from './BuyModal';
+export const MarketTable = ({
+  lastFetch,
+  fetchCoins,
+  isLoaded,
+  marketCoins,
+  getColor,
+  money,
+  purchaseCoin,
+  spawnToast,
+}) => {
   return (
-    <Table variant="simple">
-    
-    <TableCaption>Last update: {lastFetch}</TableCaption>
-    <Thead>
-      <Tr>
-        <Th>
-          {isLoaded ? (
-            <IconButton
-              variant="outline"
-              colorScheme="teal"
-              size="xs"
-              onClick={() => fetchCoins()}
-              icon={<RepeatIcon />}
-            />
-          ) : (
-            <IconButton
-              isLoading
-              variant="outline"
-              colorScheme="teal"
-              size="xs"
-              onClick={() => fetchCoins()}
-              icon={<RepeatIcon />}
-            />
-          )}
-        </Th>
-        <Th>Coin</Th>
-        {/* <Th>Day Δ</Th>
-        <Th>Month Δ</Th> */}
-        <Th isNumeric>Price</Th>
-      </Tr>
-    </Thead>
-    <Tbody>
-      {marketCoins &&
-        marketCoins.map((coin, i) => (
-          <Tr key={coin.id} onClick={() => handleBuy(coin)}>
-            <Td>
-              <Image src={coin.logo_url} boxSize="20px" />
-            </Td>
-            <Td>{coin.id}</Td>
-            {/* <Td color={getColor(coin['1d'].price_change_pct)}>
-              {roundToTwo(coin['1d'].price_change_pct)}%
-            </Td>
-            <Td color={getColor(coin['30d'].price_change_pct)}>
-              {roundToTwo(coin['30d'].price_change_pct)}%
-            </Td> */}
-
-            <Td isNumeric>${roundToTwo(coin.price)}</Td>
-          </Tr>
-        ))}
-    </Tbody>
-
-    {/* <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader textAlign="center">Buying: {currentCoin.id}</ModalHeader>
-        <ModalBody textAlign="center">
-          <VStack>
-            <Text>How much {currentCoin.id} would you like to purchase?</Text>
-            <NumberInput
-              defaultValue={0}
-              min={0}
-              max={props.money / currentCoin.price}
-              onChange={value => setAmount(value)}
-              value={amount}
-            >
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
-            <Text>
-              Total price: ${roundToTwo(amount * currentCoin.price)}
-            </Text>
-          </VStack>
-        </ModalBody>
-
-        <ModalFooter justifyContent="center">
-          <HStack>
-            <Button
-              leftIcon={<NotAllowedIcon />}
-              colorScheme="red"
-              onClick={() => {
-                onClose();
-                setAmount(0);
-              }}
-              variant="outline"
-            >
-              Cancel
-            </Button>
-            <Button
-              leftIcon={<CheckCircleIcon />}
-              colorScheme="purple"
-              variant="outline"
-              onClick={() => {
-                props.purchaseCoin(currentCoin, amount);
-                onClose();
-                setAmount(0);
-              }}
-            >
-              Buy
-            </Button>
-          </HStack>
-        </ModalFooter>
-      </ModalContent>
-    </Modal> */}
-  </Table>
-
-  )
-}
+    <Table variant="striped" size="sm">
+      <TableCaption>Last update: {lastFetch}</TableCaption>
+      <Thead>
+        <Tr>
+          <Th width="5%">
+            {isLoaded ? (
+              <IconButton
+                variant="outline"
+                colorScheme="teal"
+                size="xs"
+                onClick={() => fetchCoins()}
+                icon={<RepeatIcon />}
+              />
+            ) : (
+              <IconButton
+                isLoading
+                variant="outline"
+                colorScheme="teal"
+                size="xs"
+                onClick={() => fetchCoins()}
+                icon={<RepeatIcon />}
+              />
+            )}
+          </Th>
+          <Th width="5%">Ticker</Th>
+          <Th width="5%">Coin</Th>
+          <Th width="5%">Day Price Δ</Th>
+          <Th width="5%">Month PriceΔ</Th>
+          <Th width="5%">Day Volume</Th>
+          <Th width="5%">Day Volume</Th>
+          <Th width="5%">Month Volume Δ</Th>
+          <Th width="5%">Day Volume Δ</Th>
+          <Th width="5%" isNumeric>
+            Price
+          </Th>
+          <Th width="5%" isNumeric></Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        {marketCoins &&
+          marketCoins.map((coin, i) => (
+            <Tr key={coin.id}>
+              <Td>
+                <Image src={coin.logo_url} boxSize="20px" />
+              </Td>
+              <Td>{coin.id}</Td>
+              <Td>{coin.name}</Td>
+              <Td color={getColor(coin['1d'].price_change_pct)}>
+                {roundToTwo(coin['1d'].price_change_pct)}%
+              </Td>
+              <Td color={getColor(coin['30d'].price_change_pct)}>
+                {roundToTwo(coin['30d'].price_change_pct)}%
+              </Td>
+              <Td>{roundToTwo(coin['1d'].volume)}</Td>
+              <Td color={getColor(coin['1d'].price_change_pct)}>
+                {roundToTwo(coin['1d'].price_change_pct)}%
+              </Td>
+              <Td color={getColor(coin['30d'].price_change_pct)}>
+                {roundToTwo(coin['30d'].price_change_pct)}%
+              </Td>
+              <Td>{roundToTwo(coin['30d'].volume)}</Td>
+              <Td isNumeric>${roundToTwo(coin.price)}</Td>
+              <Td isNumeric>
+                <BuyModal
+                  showModalButtonText="+"
+                  coin={coin}
+                  money={money}
+                  purchaseCoin={purchaseCoin}
+                  spawnToast={spawnToast}
+                  size="lg"
+                ></BuyModal>
+              </Td>
+            </Tr>
+          ))}
+      </Tbody>
+    </Table>
+  );
+};
