@@ -1,25 +1,20 @@
 import {
-  Grid,
-  Flex,
-  useToast,
-  VStack,
-  Heading,
-  HStack,
+  Flex, Heading, useToast,
+  VStack
 } from '@chakra-ui/react';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { retrievePortfolio, storePortfolio } from '../services/StorageService';
 import { roundToTwo } from '../Util';
 import { CoinList } from './CoinList';
+import { Footer } from './Footer';
 import { Header } from './Header';
 import { Market } from './Market';
 import { Money } from './Money';
 import { MoneyButton } from './MoneyButton';
 import { SellButton } from './SellButton';
-import { Footer } from './Footer';
 
 export const Main = () => {
   const [isDesktop, setDesktop] = useState(window.innerWidth > 1450);
-
-  console.log(1200);
 
   const updateMedia = () => {
     setDesktop(window.innerWidth > 1200);
@@ -30,8 +25,16 @@ export const Main = () => {
     return () => window.removeEventListener('resize', updateMedia);
   });
 
+  useEffect(() => {
+    setCoins(retrievePortfolio());
+  }, [])
+
   const [money, setMoney] = useState(1000);
   const [coins, setCoins] = useState([]);
+
+  useEffect(() => {
+    storePortfolio(coins);
+  }, [coins])
 
   const purchaseCoin = (coin, amount) => {
     if (canAfford(coin, amount)) {
@@ -40,9 +43,11 @@ export const Main = () => {
         let index = coins.findIndex(e => e.id === coin.id);
         temp[index].amountOwned += Number(amount);
         setCoins(temp);
+        
       } else {
         coin.amountOwned = Number(amount);
         setCoins(prevState => [...prevState, coin]);
+
       }
       setMoney(money - Number(coin.price * amount));
       spawnToast(
