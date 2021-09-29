@@ -20,6 +20,7 @@ export const InfoButton = () => {
           <br/>Click on one of the coins in your portfolio to sell it. 
           <br/>You can add more money to your bank by pressing the green button. 
           <br/>You can sell all your coins and claim your ride to the moon by pressing the pink button.
+          <br/><b>NOTE:</b> THIS IS A BETA VERSION USING A NON-REALTIME API. YOUR TRADES WILL NOT CORRESPOND WITH THE REAL TIME PRICES OF THE COINS. 
         </PopoverBody>
         <PopoverFooter>
           <Button width="100%" colorScheme="teal" onClick={onClose}>
