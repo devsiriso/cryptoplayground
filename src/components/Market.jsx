@@ -1,49 +1,37 @@
-import {
-  Flex
-} from '@chakra-ui/react';
+import { Flex, useToast } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import { getMarketCoins } from '../services/ApiService';
+import { getCoinsFromApi, getDebugCoins } from '../services/ApiService';
 import { MarketList } from './MarketList';
 import { MarketTable } from './MarketTable';
 // DECENT LOOKING COINS: BTC,TRX,TEL,BNB,ETC,USDP:
 
 export const Market = ({ purchaseCoin, money, spawnToast, isDesktop }) => {
-  const COINS_TO_FETCH =
-    'BTC, ETH, BNB, USDP,BTC,TRX,TEL,BNB,ETC,USDP,DOGE,ADA,SOL,USDT,BCH';
-  const API_KEY = process.env.REACT_APP_API_KEY;
-  const URL = `https://api.nomics.com/v1/currencies/ticker?key=${API_KEY}&ids=${COINS_TO_FETCH}&interval=1d,30d&per-page=100&page=1`;
-
   const [marketCoins, setMarketCoins] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [lastFetch, setLastFetch] = useState(new Date().toUTCString());
-
-  const fetchCoins = async () => {
-    fetch(URL, { mode: 'cors' })
-      .then(res => res.json())
-      .then(
-        res => {
-          setIsLoaded(true);
-          setLastFetch(new Date().toUTCString());
-          setMarketCoins(res);
-          spawnToast("Retrieved market information")
-        },
-        err => {
-          spawnToast("Failed to retrieve market information.", "error")
-        }
-      );
-  };
+  const toast = useToast();
 
   useEffect(() => {
-    fetchCoins();
-    // setMarketCoins(getMarketCoins());
+    // getCoinsFromApi().then(
+    //   response => {
+    //     response.json().then(coins => {
+    //       setMarketCoins(coins);
+    //       setIsLoaded(true);
+    //       spawnToast('Retrieved market information.', 'success');
+    //     });
+    //   },
+    //   error => {
+    //     spawnToast('Failed to retrieve market information.', 'error');
+    //   }
+    // );
+
+    getCoinsFromApi(toast).then(r => r.json().then(r => setMarketCoins(r)));
   }, []);
 
   const getColor = change => {
     if (change < 0) return 'red.400';
     if (change > 0) return 'green.400';
   };
-
- 
 
   return (
     <Flex width="100%">
@@ -55,8 +43,7 @@ export const Market = ({ purchaseCoin, money, spawnToast, isDesktop }) => {
           money={money}
           spawnToast={spawnToast}
           isLoaded={isLoaded}
-          fetchCoins={fetchCoins}
-          lastFetch={lastFetch}
+          setMarketCoins={setMarketCoins}
         />
       ) : (
         <MarketList
@@ -65,8 +52,7 @@ export const Market = ({ purchaseCoin, money, spawnToast, isDesktop }) => {
           purchaseCoin={purchaseCoin}
           money={money}
           spawnToast={spawnToast}
-          fetchCoins={fetchCoins}
-          lastFetch={lastFetch}
+          setMarketCoins={setMarketCoins}
         />
       )}
     </Flex>

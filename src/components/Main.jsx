@@ -129,14 +129,13 @@ export const Main = () => {
         </Heading>
         <Market
           isDesktop={isDesktop}
-          spawnToast={spawnToast}
           money={money}
           setMoney={setMoney}
           purchaseCoin={purchaseCoin}
+          spawnToast={spawnToast}
         />
         <CoinList
           isDesktop={isDesktop}
-          spawnToast={spawnToast}
           coins={coins}
           sellCoin={sellCoin}
         />
