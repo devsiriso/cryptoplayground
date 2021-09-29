@@ -3,29 +3,17 @@ import React, { useEffect, useState } from 'react';
 import { getCoinsFromApi, getDebugCoins } from '../services/ApiService';
 import { MarketList } from './MarketList';
 import { MarketTable } from './MarketTable';
-// DECENT LOOKING COINS: BTC,TRX,TEL,BNB,ETC,USDP:
 
 export const Market = ({ purchaseCoin, money, spawnToast, isDesktop }) => {
   const [marketCoins, setMarketCoins] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [lastFetch, setLastFetch] = useState(new Date().toUTCString());
+  const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
 
   useEffect(() => {
-    // getCoinsFromApi().then(
-    //   response => {
-    //     response.json().then(coins => {
-    //       setMarketCoins(coins);
-    //       setIsLoaded(true);
-    //       spawnToast('Retrieved market information.', 'success');
-    //     });
-    //   },
-    //   error => {
-    //     spawnToast('Failed to retrieve market information.', 'error');
-    //   }
-    // );
-
-    getCoinsFromApi(toast).then(r => r.json().then(r => setMarketCoins(r)));
+    getCoinsFromApi(toast).then(r => r.json().then(r => {
+      setMarketCoins(r);
+      setIsLoading(true);
+    }));
   }, []);
 
   const getColor = change => {
@@ -42,8 +30,9 @@ export const Market = ({ purchaseCoin, money, spawnToast, isDesktop }) => {
           purchaseCoin={purchaseCoin}
           money={money}
           spawnToast={spawnToast}
-          isLoaded={isLoaded}
           setMarketCoins={setMarketCoins}
+          setIsLoading={setIsLoading}
+          isLoading={isLoading}
         />
       ) : (
         <MarketList
