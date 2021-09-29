@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { RepeatIcon } from '@chakra-ui/icons';
 import {
   IconButton,
@@ -9,31 +10,47 @@ import {
   Th,
   Thead,
   Tr,
+  useToast
 } from '@chakra-ui/react';
 import { roundToTwo } from '../Util';
 import { BuyModal } from './BuyModal';
+import { getCoinsFromApi, getLastFetchDate } from '../services/ApiService';
+
 export const MarketTable = ({
-  lastFetch,
   fetchCoins,
-  isLoaded,
   marketCoins,
   getColor,
   money,
   purchaseCoin,
   spawnToast,
+  setMarketCoins,
+  isLoading,
+  setIsLoading,
 }) => {
+  const toast = useToast();
+  const [lastFetch, setLastFetch] = useState(getLastFetchDate());
+  
+  const handleRefresh = () => {
+    setIsLoading(false);
+    getCoinsFromApi(toast).then(r => r.json().then(r => {
+        setLastFetch(getLastFetchDate());
+        setMarketCoins(r)
+        setIsLoading(true);
+    }));
+  };
+
   return (
     <Table variant="striped" size="sm">
-      <TableCaption>Last update: {lastFetch}</TableCaption>
+      <TableCaption>Last update: {lastFetch.toUTCString()}</TableCaption>
       <Thead>
         <Tr>
           <Th width="5%">
-            {isLoaded ? (
+            {isLoading ? (
               <IconButton
                 variant="outline"
                 colorScheme="teal"
                 size="xs"
-                onClick={() => fetchCoins()}
+                onClick={() => handleRefresh()}
                 icon={<RepeatIcon />}
               />
             ) : (

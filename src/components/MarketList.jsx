@@ -1,5 +1,14 @@
-import { Divider, Flex, HStack, Image, List, Text } from '@chakra-ui/react';
-import React from 'react';
+import {
+  Divider,
+  Flex,
+  HStack,
+  Image,
+  List,
+  Text,
+  useToast,
+} from '@chakra-ui/react';
+import React, {useState} from 'react';
+import { getCoinsFromApi, getLastFetchDate } from '../services/ApiService';
 import { roundToTwo } from '../Util';
 import { BuyModal } from './BuyModal';
 
@@ -9,9 +18,17 @@ export const MarketList = ({
   purchaseCoin,
   money,
   spawnToast,
-  lastFetch,
-  fetchCoins
+  setMarketCoins,
 }) => {
+  const toast = useToast();
+  const [lastFetch, setLastFetch] = useState(getLastFetchDate());
+  const handleRefresh = () => {
+    getCoinsFromApi(toast).then(r => r.json().then(r => {
+        setLastFetch(getLastFetchDate());
+        setMarketCoins(r)
+    }));
+  };
+
   return (
     <Flex direction="column" width="100%" align="center">
       <List
@@ -23,7 +40,7 @@ export const MarketList = ({
           overflowInline: 'hidden',
         }}
       >
-          <Divider m={2}/>
+        <Divider m={2} />
         {marketCoins &&
           marketCoins.map((coin, i) => (
             <Flex direction="column" key={coin.id}>
@@ -43,8 +60,7 @@ export const MarketList = ({
                       fontSize="sm"
                       color={getColor(coin['1d'].price_change_pct)}
                     >
-                      {roundToTwo(coin['1d'].price_change)}(
-                      {roundToTwo(coin['1d'].price_change_pct)}%)
+                      {roundToTwo(coin['1d'].price_change)} ({roundToTwo(coin['1d'].price_change_pct)}%)
                     </Text>
                   </Flex>
                   <BuyModal
@@ -61,7 +77,9 @@ export const MarketList = ({
             </Flex>
           ))}
       </List>
-      <Text as="u" onClick={fetchCoins} textAlign="center">Last update: {lastFetch} (click to refresh)</Text>
+      <Text as="u" onClick={() => handleRefresh()} textAlign="center">
+        Last update: {lastFetch.toUTCString()} (click to refresh)
+      </Text>
     </Flex>
   );
 };
